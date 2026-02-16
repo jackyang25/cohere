@@ -1,0 +1,6 @@
+name = "cohere"
+version = "0.1.0"
+defaultTargets = ["Cohere"]
+
+[[lean_lib]]
+name = "Cohere"

@@ -1,0 +1,5 @@
+{"log":
+ [{"message":
+   ".> LEAN_PATH=././.lake/build/lib DYLD_LIBRARY_PATH= /Users/jackyang/.elan/toolchains/leanprover--lean4---v4.15.0/bin/lean ././././Cohere.lean -R ./././. -o ././.lake/build/lib/Cohere.olean -i ././.lake/build/lib/Cohere.ilean -c ././.lake/build/ir/Cohere.c --json",
+   "level": "trace"}],
+ "depHash": "3972548016717785046"}

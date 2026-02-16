@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "domain": "obstetrics",
+  "notes": "Illustrative placeholder rules for development/testing. Not clinical advice.",
+  "facts": [
+    "DxAttr.Preeclampsia.Severe",
+    "Ctx.GA>=34w",
+    "Fact.PlacentaPrevia",
+    "FetalStatus.Reassuring",
+    "Fact.ExtremePrematurity"
+  ],
+  "actions": [
+    "Deliver",
+    "Deliver.Cesarean",
+    "Wait",
+    "Escalate.MFM",
+    "Escalate.Specialist"
+  ],
+  "rules": [
+    {
+      "id": "OB-0001",
+      "premises": ["DxAttr.Preeclampsia.Severe", "Ctx.GA>=34w"],
+      "out": { "kind": "Obligated", "action": "Deliver" },
+      "source": "example-a"
+    },
+    {
+      "id": "OB-0002",
+      "premises": ["FetalStatus.Reassuring"],
+      "out": { "kind": "Allowed", "action": "Wait" },
+      "source": "example-b"
+    },
+    {
+      "id": "OB-0003",
+      "premises": ["Fact.PlacentaPrevia"],
+      "out": { "kind": "Rejected", "action": "Deliver" },
+      "source": "example-c/d"
+    },
+    {
+      "id": "OB-0004",
+      "premises": ["DxAttr.Preeclampsia.Severe", "Ctx.GA>=34w", "Fact.PlacentaPrevia"],
+      "out": { "kind": "Obligated", "action": "Deliver.Cesarean" },
+      "source": "example-d (resolution rule)"
+    },
+    {
+      "id": "OB-0005",
+      "premises": ["DxAttr.Preeclampsia.Severe", "Ctx.GA>=34w", "Fact.ExtremePrematurity"],
+      "out": { "kind": "Obligated", "action": "Escalate.MFM" },
+      "source": "example-f (uncertainty/escalation)"
+    }
+  ]
+}

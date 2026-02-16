@@ -1,0 +1,8 @@
+{
+  "version": "1.0",
+  "notes": "Illustrative placeholder incompatibility pairs for development/testing.",
+  "pairs": [
+    { "a": "Deliver", "b": "Wait" },
+    { "a": "Deliver.Cesarean", "b": "Wait" }
+  ]
+}

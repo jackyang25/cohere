@@ -1,0 +1,5 @@
+{"log":
+ [{"message":
+   ".> LEAN_PATH=././.lake/build/lib DYLD_LIBRARY_PATH=././.lake/build/lib:/Users/jackyang/.elan/toolchains/leanprover--lean4---v4.15.0/lib/lean:/Users/jackyang/.elan/toolchains/leanprover--lean4---v4.15.0/lib /Users/jackyang/.elan/toolchains/leanprover--lean4---v4.15.0/bin/lean ././././Cohere/Types/Fact.lean -R ./././. -o ././.lake/build/lib/Cohere/Types/Fact.olean -i ././.lake/build/lib/Cohere/Types/Fact.ilean -c ././.lake/build/ir/Cohere/Types/Fact.c --json",
+   "level": "trace"}],
+ "depHash": "3321809327473910656"}
