@@ -16,8 +16,11 @@ namespace Cohere.Invariants
 
 open Cohere.Types
 
+universe u v
+variable {Fact : Type u} {Action : Type v}
+
 /-- The conjunction of all kernel safety invariants for a ruleset `R`. -/
-def AllInvariants (alg : ActionAlgebra) (R : List Rule) : Prop :=
+def AllInvariants (alg : ActionAlgebra Fact Action) (R : List (Rule Fact Action)) : Prop :=
   NoContradiction R ∧
   NoIncompatibleObligations alg R ∧
   OughtImpliesCan alg R

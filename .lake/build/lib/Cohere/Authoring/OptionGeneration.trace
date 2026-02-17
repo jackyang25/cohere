@@ -1,5 +1,0 @@
-{"log":
- [{"message":
-   ".> LEAN_PATH=././.lake/build/lib DYLD_LIBRARY_PATH= /Users/jackyang/.elan/toolchains/leanprover--lean4---v4.15.0/bin/lean ././././Cohere/Authoring/OptionGeneration.lean -R ./././. -o ././.lake/build/lib/Cohere/Authoring/OptionGeneration.olean -i ././.lake/build/lib/Cohere/Authoring/OptionGeneration.ilean -c ././.lake/build/ir/Cohere/Authoring/OptionGeneration.c --json",
-   "level": "trace"}],
- "depHash": "15951224410653999027"}

@@ -1,0 +1,11 @@
+.lake/
+lake-packages/
+*.olean
+*.ilean
+*.c
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.exe

@@ -1,5 +1,0 @@
-{"log":
- [{"message":
-   ".> LEAN_PATH=././.lake/build/lib DYLD_LIBRARY_PATH= /Users/jackyang/.elan/toolchains/leanprover--lean4---v4.15.0/bin/lean ././././Cohere/Authoring/ConflictDetection.lean -R ./././. -o ././.lake/build/lib/Cohere/Authoring/ConflictDetection.olean -i ././.lake/build/lib/Cohere/Authoring/ConflictDetection.ilean -c ././.lake/build/ir/Cohere/Authoring/ConflictDetection.c --json",
-   "level": "trace"}],
- "depHash": "11463231620913210523"}

@@ -9,10 +9,15 @@
 
 namespace Cohere.Types
 
+/-
+Universe-polymorphic `Verdict` so it can wrap actions in any universe.
+-/
+universe u
+
 /--
 Fixed vocabulary of judgments about actions.
 -/
-inductive Verdict (α : Type) : Type where
+inductive Verdict (α : Type u) : Type u where
   | Obligated : α -> Verdict α
   | Allowed : α -> Verdict α
   | Disallowed : α -> Verdict α

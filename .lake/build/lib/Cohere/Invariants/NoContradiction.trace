@@ -1,5 +1,0 @@
-{"log":
- [{"message":
-   ".> LEAN_PATH=././.lake/build/lib DYLD_LIBRARY_PATH= /Users/jackyang/.elan/toolchains/leanprover--lean4---v4.15.0/bin/lean ././././Cohere/Invariants/NoContradiction.lean -R ./././. -o ././.lake/build/lib/Cohere/Invariants/NoContradiction.olean -i ././.lake/build/lib/Cohere/Invariants/NoContradiction.ilean -c ././.lake/build/ir/Cohere/Invariants/NoContradiction.c --json",
-   "level": "trace"}],
- "depHash": "3785305266050699415"}

@@ -2,9 +2,7 @@
 -- This module serves as the library root and imports all submodules.
 
 -- Layer 1: Types
-import Cohere.Types.Fact
 import Cohere.Types.FactSet
-import Cohere.Types.Action
 import Cohere.Types.Verdict
 import Cohere.Types.Rule
 import Cohere.Types.ActionAlgebra

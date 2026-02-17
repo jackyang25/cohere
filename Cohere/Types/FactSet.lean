@@ -7,23 +7,23 @@
   For now we represent it as a `List Fact` and use membership/subset in `Prop`,
   which is already insensitive to order and duplicates.
 -/
-import Cohere.Types.Fact
-
 namespace Cohere.Types
 
-/-- Runtime fact set / premise set (set semantics, list representation). -/
-abbrev FactSet : Type := List Fact
+universe u
+
+/-- Runtime fact set / premise set for a given `Fact` type (set semantics, list representation). -/
+abbrev FactSet (Fact : Type u) : Type u := List Fact
 
 namespace FactSet
 
 /-- Membership predicate. -/
-abbrev Mem (f : Fact) (F : FactSet) : Prop := f ∈ F
+abbrev Mem {Fact : Type u} (f : Fact) (F : FactSet Fact) : Prop := f ∈ F
 
 /-- Subset predicate (`P ⊆ F`). -/
-abbrev Subset (P F : FactSet) : Prop := List.Subset P F
+abbrev Subset {Fact : Type u} (P F : FactSet Fact) : Prop := List.Subset P F
 
 /-- Union of fact sets (`P ∪ Q`) under set semantics. -/
-def union (P Q : FactSet) : FactSet := P ++ Q
+def union {Fact : Type u} (P Q : FactSet Fact) : FactSet Fact := P ++ Q
 
 end FactSet
 end Cohere.Types

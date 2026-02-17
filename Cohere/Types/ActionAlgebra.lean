@@ -5,11 +5,11 @@
     Incompatible : Action -> Action -> Prop
     Feasible     : Action -> Pf(Fact) -> Prop
 -/
-import Cohere.Types.Fact
 import Cohere.Types.FactSet
-import Cohere.Types.Action
 
 namespace Cohere.Types
+
+universe u v
 
 /--
 Action algebra interface.
@@ -17,10 +17,10 @@ Action algebra interface.
 This is intentionally data-driven: concrete implementations should come
 from versioned artifacts (tables), not hardcoded kernel logic.
 -/
-structure ActionAlgebra where
+structure ActionAlgebra (Fact : Type u) (Action : Type v) where
   /-- Action pairs that cannot co-occur in one plan instance. -/
   Incompatible : Action -> Action -> Prop
   /-- Whether an action is implementable under a fact set. -/
-  Feasible : Action -> FactSet -> Prop
+  Feasible : Action -> FactSet Fact -> Prop
 
 end Cohere.Types

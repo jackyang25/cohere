@@ -1,5 +1,0 @@
-{"log":
- [{"message":
-   ".> LEAN_PATH=././.lake/build/lib DYLD_LIBRARY_PATH= /Users/jackyang/.elan/toolchains/leanprover--lean4---v4.15.0/bin/lean ././././Cohere/Derivation/Firing.lean -R ./././. -o ././.lake/build/lib/Cohere/Derivation/Firing.olean -i ././.lake/build/lib/Cohere/Derivation/Firing.ilean -c ././.lake/build/ir/Cohere/Derivation/Firing.c --json",
-   "level": "trace"}],
- "depHash": "9518392042487114566"}

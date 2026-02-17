@@ -17,21 +17,24 @@ namespace Cohere.Authoring
 open Cohere.Types
 open Cohere.Derivation
 
+universe u v
+variable {Fact : Type u} {Action : Type v}
+
 /-- Path 1: the new rule has no conflicting counterpart in the existing ruleset. -/
-def CleanEntry (R : List Rule) (rNew : Rule) : Prop :=
+def CleanEntry (R : List (Rule Fact Action)) (rNew : Rule Fact Action) : Prop :=
   ∀ rOld, rOld ∈ R -> ¬ ConflictingRules rNew rOld
 
 /--
 Path 2 (minimal form): there exists a conflicting rule, but premises are not independent,
 so specificity ordering can resolve the overlap (one premise set is a subset of the other).
 -/
-def SpecificityResolvable (R : List Rule) (rNew : Rule) : Prop :=
+def SpecificityResolvable (R : List (Rule Fact Action)) (rNew : Rule Fact Action) : Prop :=
   ∃ rOld, rOld ∈ R ∧
     ConflictingRules rNew rOld ∧
     ¬ IndependentPremises rNew rOld
 
 /-- Path 3: there exists a guided conflict with some existing rule. -/
-def GuidedResolutionNeeded (R : List Rule) (rNew : Rule) : Prop :=
+def GuidedResolutionNeeded (R : List (Rule Fact Action)) (rNew : Rule Fact Action) : Prop :=
   ∃ rOld, rOld ∈ R ∧ GuidedConflict rNew rOld
 
 end Cohere.Authoring

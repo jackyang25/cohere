@@ -9,7 +9,6 @@
   We represent premise unions as list concatenation.
 -/
 import Cohere.Authoring.ConflictDetection
-import Cohere.Types.Action
 import Cohere.Types.FactSet
 import Cohere.Types.Rule
 import Cohere.Types.Verdict
@@ -18,16 +17,19 @@ namespace Cohere.Authoring
 
 open Cohere.Types
 
+universe u v
+variable {Fact : Type u} {Action : Type v}
+
 /-- Premise union for the overlap case (`P₁ ∪ P₂`), using lists. -/
-def OverlapPremises (r₁ r₂ : Rule) : FactSet :=
+def OverlapPremises (r₁ r₂ : Rule Fact Action) : FactSet Fact :=
   Cohere.Types.FactSet.union r₁.premises r₂.premises
 
 /-- Option (a): Rule A's verdict applies to the overlap. -/
-def OptionA (rA rB : Rule) : Rule :=
+def OptionA (rA rB : Rule Fact Action) : Rule Fact Action :=
   { premises := OverlapPremises rA rB, out := rA.out }
 
 /-- Option (b): Rule B's verdict applies to the overlap. -/
-def OptionB (rA rB : Rule) : Rule :=
+def OptionB (rA rB : Rule Fact Action) : Rule Fact Action :=
   { premises := OverlapPremises rA rB, out := rB.out }
 
 /--
@@ -36,11 +38,11 @@ Option (c): escalate for the overlap.
 We parameterize by the escalation action token, so the kernel does not hardcode
 any action ontology details.
 -/
-def OptionC (escalateSpecialist : Action) (rA rB : Rule) : Rule :=
+def OptionC (escalateSpecialist : Action) (rA rB : Rule Fact Action) : Rule Fact Action :=
   { premises := OverlapPremises rA rB, out := .Obligated escalateSpecialist }
 
 /-- The three base options as a list. -/
-def BaseOptions (escalateSpecialist : Action) (rA rB : Rule) : List Rule :=
+def BaseOptions (escalateSpecialist : Action) (rA rB : Rule Fact Action) : List (Rule Fact Action) :=
   [OptionA rA rB, OptionB rA rB, OptionC escalateSpecialist rA rB]
 
 end Cohere.Authoring
