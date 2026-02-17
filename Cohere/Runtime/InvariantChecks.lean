@@ -4,7 +4,9 @@
   Bool invariant checks over derived verdicts.
 -/
 import Cohere.Runtime.BoolUtils
-import Cohere.Runtime.Verifier
+import Cohere.Runtime.ActionAlgebraB
+import Cohere.Types.FactSet
+import Cohere.Types.Verdict
 
 namespace Cohere.Runtime
 

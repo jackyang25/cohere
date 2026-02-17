@@ -8,13 +8,10 @@ import Cohere.Artifacts.RulesetLoader
 import Cohere.Artifacts.Schema
 import Cohere.Types.ActionAlgebra
 import Cohere.Types.FactSet
-import Cohere.Runtime.Verifier
-import Cohere.Runtime.BoolUtils
 
 namespace Cohere.Artifacts
 
 open Cohere.Types
-open Cohere.Runtime
 
 def loadIncompatibility (path : System.FilePath) : IO IncompatibilityJson :=
   parseJsonFile IncompatibilityJson path
@@ -37,23 +34,5 @@ def loadActionAlgebra (incompatPath feasPath : System.FilePath) : IO (ActionAlge
   let inc ← loadIncompatibility incompatPath
   let feas ← loadFeasibility feasPath
   pure <| buildActionAlgebra inc feas
-
-def incompatB (pairs : List IncompatPairJson) (a b : String) : Bool :=
-  pairs.any (fun p => decide ((p.a = a ∧ p.b = b) ∨ (p.a = b ∧ p.b = a)))
-
-def feasibleB (entries : List FeasibleEntryJson) (a : String) (F : FactSet String) : Bool :=
-  entries.any (fun e =>
-    decide (e.action = a) && (subsetB e.requiresAllFacts F)
-  )
-
-def buildActionAlgebraB (inc : IncompatibilityJson) (feas : FeasibilityJson) : ActionAlgebraB String String :=
-  { Incompatible := incompatB inc.pairs
-    Feasible := feasibleB feas.entries
-  }
-
-def loadActionAlgebraB (incompatPath feasPath : System.FilePath) : IO (ActionAlgebraB String String) := do
-  let inc ← loadIncompatibility incompatPath
-  let feas ← loadFeasibility feasPath
-  pure <| buildActionAlgebraB inc feas
 
 end Cohere.Artifacts

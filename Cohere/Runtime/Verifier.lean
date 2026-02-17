@@ -8,6 +8,7 @@
   (soundness: checker=true -> invariants hold).
 -/
 import Cohere.Runtime.BoolUtils
+import Cohere.Runtime.ActionAlgebraB
 import Cohere.Types.Rule
 import Cohere.Types.Verdict
 import Cohere.Types.FactSet
@@ -18,15 +19,6 @@ open Cohere.Types
 
 universe u v
 variable {Fact : Type u} {Action : Type v} [DecidableEq Fact] [DecidableEq Action]
-
-/-!
-Bool-backed action algebra for executable checking.
-
-The kernel uses `Prop`-valued relations; for running, we use Bool versions.
--/
-structure ActionAlgebraB (Fact : Type u) (Action : Type v) where
-  Incompatible : Action -> Action -> Bool
-  Feasible : Action -> FactSet Fact -> Bool
 
 def sameActionB (v₁ v₂ : Verdict Action) : Bool :=
   decide (Verdict.action v₁ = Verdict.action v₂)

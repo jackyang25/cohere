@@ -8,9 +8,9 @@
     lake exe cohere-verify data/rules/obstetrics-v1.0.json data/actions/incompatible-v1.0.json data/feasibility/feasible-v1.0.json
 -/
 import Cohere.Artifacts.RulesetLoader
-import Cohere.Artifacts.ActionAlgebraLoader
 import Cohere.Runtime.Verifier
 import Cohere.Runtime.InvariantChecks
+import Cohere.Runtime.ActionAlgebraLoader
 
 open Cohere.Artifacts
 open Cohere.Runtime
@@ -26,7 +26,7 @@ def main (args : List String) : IO UInt32 := do
     | _ => (defaultRulesPath, defaultIncompatPath, defaultFeasPath)
 
   let (rsMeta, rules) ← loadRuleset rulesPath
-  let algB ← loadActionAlgebraB incompatPath feasPath
+  let algB ← Cohere.Runtime.loadActionAlgebraB incompatPath feasPath
 
   let actions := rsMeta.actions
 

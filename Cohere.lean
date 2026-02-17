@@ -23,10 +23,5 @@ import Cohere.Authoring.EntryPaths
 import Cohere.Authoring.ConflictDetection
 import Cohere.Authoring.OptionGeneration
 
--- Data loading
-import Cohere.Artifacts.RulesetLoader
-import Cohere.Artifacts.ActionAlgebraLoader
-import Cohere.Artifacts.Schema
-
--- Certificate checking
+-- Layer 5: Certificate checking
 import Cohere.Certificate.CertificateCheck
