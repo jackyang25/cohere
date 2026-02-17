@@ -1,16 +1,16 @@
 /-
-  Cohere.Data.RulesetLoader
+  Cohere.Artifacts.RulesetLoader
 
   Load hyperedges from versioned data artifacts.
 -/
 
 import Lean.Data.Json
-import Cohere.Data.Schema
+import Cohere.Artifacts.Schema
 import Cohere.Types.Rule
 import Cohere.Types.Verdict
 import Cohere.Types.FactSet
 
-namespace Cohere.Data
+namespace Cohere.Artifacts
 
 open Lean
 open Cohere.Types
@@ -42,4 +42,4 @@ def loadRuleset (path : System.FilePath) : IO (RulesetJson × List (Rule String 
   let rules ← rs.rules.mapM ruleFromJson
   pure (rs, rules)
 
-end Cohere.Data
+end Cohere.Artifacts

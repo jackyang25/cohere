@@ -24,9 +24,9 @@ import Cohere.Authoring.ConflictDetection
 import Cohere.Authoring.OptionGeneration
 
 -- Data loading
-import Cohere.Data.RulesetLoader
-import Cohere.Data.ActionAlgebraLoader
-import Cohere.Data.Schema
+import Cohere.Artifacts.RulesetLoader
+import Cohere.Artifacts.ActionAlgebraLoader
+import Cohere.Artifacts.Schema
 
 -- Certificate checking
-import Cohere.Certificate.Check
+import Cohere.Certificate.CertificateCheck

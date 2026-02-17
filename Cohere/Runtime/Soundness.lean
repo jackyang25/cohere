@@ -13,7 +13,7 @@ import Cohere.Runtime.Verifier
 import Cohere.Derivation.Firing
 import Cohere.Derivation.Derive
 import Cohere.Derivation.Specificity
-import Cohere.Certificate.Check
+import Cohere.Certificate.CertificateCheck
 
 namespace Cohere.Runtime.Soundness
 

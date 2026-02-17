@@ -36,6 +36,12 @@
       "source": "example-c/d"
     },
     {
+      "id": "OB-0003b",
+      "premises": ["DxAttr.Preeclampsia.Severe", "Ctx.GA>=34w", "Fact.PlacentaPrevia"],
+      "out": { "kind": "Rejected", "action": "Deliver" },
+      "source": "example-d (exception overrides OB-0001 under previa)"
+    },
+    {
       "id": "OB-0004",
       "premises": ["DxAttr.Preeclampsia.Severe", "Ctx.GA>=34w", "Fact.PlacentaPrevia"],
       "out": { "kind": "Obligated", "action": "Deliver.Cesarean" },

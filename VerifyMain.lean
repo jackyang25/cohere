@@ -7,12 +7,12 @@
     lake exe cohere-verify
     lake exe cohere-verify data/rules/obstetrics-v1.0.json data/actions/incompatible-v1.0.json data/feasibility/feasible-v1.0.json
 -/
-import Cohere.Data.RulesetLoader
-import Cohere.Data.ActionAlgebraLoader
+import Cohere.Artifacts.RulesetLoader
+import Cohere.Artifacts.ActionAlgebraLoader
 import Cohere.Runtime.Verifier
-import Cohere.Runtime.Checker
+import Cohere.Runtime.InvariantChecks
 
-open Cohere.Data
+open Cohere.Artifacts
 open Cohere.Runtime
 
 def defaultRulesPath : System.FilePath := "data/rules/obstetrics-v1.0.json"

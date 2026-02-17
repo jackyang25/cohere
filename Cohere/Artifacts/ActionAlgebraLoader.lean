@@ -1,17 +1,17 @@
 /-
-  Cohere.Data.ActionAlgebraLoader
+  Cohere.Artifacts.ActionAlgebraLoader
 
   Load Incompatible and Feasible tables from versioned data.
 -/
 
-import Cohere.Data.RulesetLoader
-import Cohere.Data.Schema
+import Cohere.Artifacts.RulesetLoader
+import Cohere.Artifacts.Schema
 import Cohere.Types.ActionAlgebra
 import Cohere.Types.FactSet
 import Cohere.Runtime.Verifier
 import Cohere.Runtime.BoolUtils
 
-namespace Cohere.Data
+namespace Cohere.Artifacts
 
 open Cohere.Types
 open Cohere.Runtime
@@ -56,4 +56,4 @@ def loadActionAlgebraB (incompatPath feasPath : System.FilePath) : IO (ActionAlg
   let feas ← loadFeasibility feasPath
   pure <| buildActionAlgebraB inc feas
 
-end Cohere.Data
+end Cohere.Artifacts

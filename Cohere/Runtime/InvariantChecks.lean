@@ -1,5 +1,5 @@
 /-
-  Cohere.Runtime.Checker
+  Cohere.Runtime.InvariantChecks
 
   Bool invariant checks over derived verdicts.
 -/

@@ -1,5 +1,5 @@
 /-
-  Cohere.Certificate.Check
+  Cohere.Certificate.CertificateCheck
 
   Certificate checking for proposed actions.
   Given a proposed action a*:
