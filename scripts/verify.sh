@@ -14,4 +14,7 @@ cd "$PROJECT_ROOT"
 echo "Building Lean library..."
 lake build
 
-echo "=== All invariants verified ==="
+echo "Running artifact verifier..."
+lake env lean VerifyScript.lean
+
+echo "=== Verification completed ==="

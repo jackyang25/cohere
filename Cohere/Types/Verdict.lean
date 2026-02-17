@@ -46,5 +46,18 @@ def conflicting : Verdict α -> Verdict α -> Prop
   | .Rejected a1, .Allowed a2 => a1 = a2
   | _, _ => False
 
+/--
+Conflicting verdict pairs, but compared "up to" an action normalization function.
+
+This is the key hook for action refinement (e.g. treating `Deliver.Cesarean` as a kind of `Deliver`)
+without hardcoding clinical knowledge into the kernel: the kernel just consumes `norm`.
+-/
+def conflictingOn (norm : α → α) : Verdict α → Verdict α → Prop
+  | .Obligated a1, .Rejected a2 => norm a1 = norm a2
+  | .Rejected a1, .Obligated a2 => norm a1 = norm a2
+  | .Allowed a1, .Rejected a2 => norm a1 = norm a2
+  | .Rejected a1, .Allowed a2 => norm a1 = norm a2
+  | _, _ => False
+
 end Verdict
 end Cohere.Types

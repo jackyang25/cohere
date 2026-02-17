@@ -4,3 +4,7 @@ defaultTargets = ["Cohere"]
 
 [[lean_lib]]
 name = "Cohere"
+
+[[lean_exe]]
+name = "cohere-verify"
+root = "VerifyMain"
