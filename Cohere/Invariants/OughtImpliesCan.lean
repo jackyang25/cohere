@@ -2,7 +2,9 @@
   Cohere.Invariants.OughtImpliesCan
 
   For all fact sets `F` and actions `a`, letting `D = Derive(R, F)`:
-    Obligated(a) ∈ D -> Feasible(a, F)
+    Obligated(a) ∈ D -> ¬ Infeasible(a, F)
+
+  No obligation may trigger an infeasibility entry.
 -/
 import Cohere.Derivation.Derive
 import Cohere.Types.ActionAlgebra
@@ -19,12 +21,12 @@ universe u v
 variable {Fact : Type u} {Action : Type v}
 
 /--
-Ought implies can: any derived obligation must be feasible according
-to the action algebra.
+Ought implies can: any derived obligation must not be infeasible
+according to the action algebra's infeasibility table.
 -/
 def OughtImpliesCan (alg : ActionAlgebra Fact Action) (R : List (Rule Fact Action)) : Prop :=
   ∀ (F : FactSet Fact) (a : Action),
     let D := Derive R F
-    D (.Obligated a) -> alg.Feasible a F
+    D (.Obligated a) -> ¬ alg.Infeasible a F
 
 end Cohere.Invariants

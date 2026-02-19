@@ -19,19 +19,19 @@ open Cohere.Types
 def incompatB (pairs : List IncompatPairJson) (a b : String) : Bool :=
   pairs.any (fun p => decide ((p.a = a ∧ p.b = b) ∨ (p.a = b ∧ p.b = a)))
 
-def feasibleB (entries : List FeasibleEntryJson) (a : String) (F : FactSet String) : Bool :=
+def infeasibleB (entries : List InfeasibleEntryJson) (a : String) (F : FactSet String) : Bool :=
   entries.any (fun e =>
-    decide (e.action = a) && (subsetB e.requiresAllFacts F)
+    decide (e.action = a) && (subsetB e.premises F)
   )
 
-def buildActionAlgebraB (inc : IncompatibilityJson) (feas : FeasibilityJson) : ActionAlgebraB String String :=
+def buildActionAlgebraB (inc : IncompatibilityJson) (infeas : InfeasibilityJson) : ActionAlgebraB String String :=
   { Incompatible := incompatB inc.pairs
-    Feasible := feasibleB feas.entries
+    Infeasible := infeasibleB infeas.entries
   }
 
-def loadActionAlgebraB (incompatPath feasPath : System.FilePath) : IO (ActionAlgebraB String String) := do
+def loadActionAlgebraB (incompatPath infeasPath : System.FilePath) : IO (ActionAlgebraB String String) := do
   let inc ← Cohere.Artifacts.loadIncompatibility incompatPath
-  let feas ← Cohere.Artifacts.loadFeasibility feasPath
-  pure <| buildActionAlgebraB inc feas
+  let infeas ← Cohere.Artifacts.loadInfeasibility infeasPath
+  pure <| buildActionAlgebraB inc infeas
 
 end Cohere.Runtime

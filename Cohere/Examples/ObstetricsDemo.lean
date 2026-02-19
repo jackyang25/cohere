@@ -76,7 +76,7 @@ Toy action algebra.
 
 This mirrors the sample JSON artifacts:
 - Deliver/Deliver.Cesarean are incompatible with Wait.
-- Feasible is unconstrained (always true) in this placeholder.
+- Infeasibility table is empty (nothing is infeasible in this toy example).
 -/
 def incompatible : DemoAction -> DemoAction -> Prop
   | .deliver, .wait => True
@@ -85,10 +85,10 @@ def incompatible : DemoAction -> DemoAction -> Prop
   | .wait, .deliverCesarean => True
   | _, _ => False
 
-def feasible (_a : DemoAction) (_F : FS) : Prop := True
+def infeasible (_a : DemoAction) (_F : FS) : Prop := False
 
 def alg : ActionAlgebra DemoFact DemoAction :=
-  { Incompatible := incompatible, Feasible := feasible }
+  { Incompatible := incompatible, Infeasible := infeasible }
 
 /-!
 Executable (Bool) driver for prototyping.

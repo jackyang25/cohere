@@ -31,7 +31,7 @@ def noIncompatibleObligationsB (alg : ActionAlgebraB Fact Action) (actions : Lis
 
 def oughtImpliesCanB (alg : ActionAlgebraB Fact Action) (actions : List Action) (F : FactSet Fact) (D : List (Verdict Action)) : Bool :=
   actions.all (fun a =>
-    if memB (.Obligated a) D then alg.Feasible a F else true
+    if memB (.Obligated a) D then !(alg.Infeasible a F) else true
   )
 
 end Cohere.Runtime

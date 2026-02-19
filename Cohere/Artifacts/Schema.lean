@@ -2,7 +2,7 @@
   Cohere.Artifacts.Schema
 
   Data format definitions for versioned clinical data artifacts
-  (rules, incompatibility tables, feasibility tables).
+  (rules, incompatibility tables, infeasibility tables).
 -/
 
 import Lean.Data.Json
@@ -50,14 +50,14 @@ structure IncompatibilityJson where
   notes : Option String := none
 deriving FromJson, Repr
 
-structure FeasibleEntryJson where
+structure InfeasibleEntryJson where
   action : String
-  requiresAllFacts : List String := []
+  premises : List String := []
 deriving FromJson, Repr
 
-structure FeasibilityJson where
+structure InfeasibilityJson where
   version : String
-  entries : List FeasibleEntryJson := []
+  entries : List InfeasibleEntryJson := []
   notes : Option String := none
 deriving FromJson, Repr
 

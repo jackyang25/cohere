@@ -5,7 +5,7 @@
 
   Usage:
     lake exe cohere-verify
-    lake exe cohere-verify data/rules/obstetrics-v1.0.json data/actions/incompatible-v1.0.json data/feasibility/feasible-v1.0.json
+    lake exe cohere-verify data/rules/obstetrics-v1.0.json data/actions/incompatible-v1.0.json data/infeasibility/infeasible-v1.0.json
 -/
 import Cohere.Artifacts.RulesetLoader
 import Cohere.Runtime.Verifier
@@ -17,21 +17,20 @@ open Cohere.Runtime
 
 def defaultRulesPath : System.FilePath := "data/rules/obstetrics-v1.0.json"
 def defaultIncompatPath : System.FilePath := "data/actions/incompatible-v1.0.json"
-def defaultFeasPath : System.FilePath := "data/feasibility/feasible-v1.0.json"
+def defaultInfeasPath : System.FilePath := "data/infeasibility/infeasible-v1.0.json"
 
 def main (args : List String) : IO UInt32 := do
-  let (rulesPath, incompatPath, feasPath) :=
+  let (rulesPath, incompatPath, infeasPath) :=
     match args with
     | [r, i, f] => (System.FilePath.mk r, System.FilePath.mk i, System.FilePath.mk f)
-    | _ => (defaultRulesPath, defaultIncompatPath, defaultFeasPath)
+    | _ => (defaultRulesPath, defaultIncompatPath, defaultInfeasPath)
 
   let (rsMeta, rules) ← loadRuleset rulesPath
-  let algB ← Cohere.Runtime.loadActionAlgebraB incompatPath feasPath
+  let algB ← Cohere.Runtime.loadActionAlgebraB incompatPath infeasPath
 
   let actions := rsMeta.actions
 
-  -- Prototype check: we only evaluate invariants over the "overlap witness" fact sets
-  -- generated from each conflicting rule pair (plus each individual rule's premises).
+  -- Prototype check: evaluate invariants over fact sets generated from each rule's premises.
   -- Full "for all fact sets" checking comes later once we have a finite fact universe.
   let factSets : List (List String) :=
     (rules.map (fun r => r.premises))
