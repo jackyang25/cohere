@@ -6,6 +6,11 @@
   Usage:
     lake exe cohere-verify
     lake exe cohere-verify data/rules/obstetrics-v1.0.json data/actions/incompatible-v1.0.json data/infeasibility/infeasible-v1.0.json
+
+  Output format (stdout, one line per invariant):
+    PASS no_contradictory_verdicts
+    PASS no_incompatible_obligations
+    FAIL ought_implies_can
 -/
 import Cohere.Artifacts.RulesetLoader
 import Cohere.Runtime.Verifier
@@ -35,17 +40,24 @@ def main (args : List String) : IO UInt32 := do
   let factSets : List (List String) :=
     (rules.map (fun r => r.premises))
 
-  let ok :=
-    factSets.all (fun F =>
-      let D := derived rules F
-      Cohere.Runtime.noContradictionB actions D &&
-      Cohere.Runtime.noIncompatibleObligationsB algB actions D &&
-      Cohere.Runtime.oughtImpliesCanB algB actions F D
-    )
+  let noContra := factSets.all (fun F =>
+    let D := derived rules F
+    Cohere.Runtime.noContradictionB actions D
+  )
+  let noIncompat := factSets.all (fun F =>
+    let D := derived rules F
+    Cohere.Runtime.noIncompatibleObligationsB algB actions D
+  )
+  let oughtCan := factSets.all (fun F =>
+    let D := derived rules F
+    Cohere.Runtime.oughtImpliesCanB algB actions F D
+  )
 
-  if ok then
-    IO.println s!"OK: invariants hold for {factSets.length} checked fact-sets (ruleset {rsMeta.domain} v{rsMeta.version})."
-    pure 0
-  else
-    IO.eprintln s!"FAIL: invariant violation detected (ruleset {rsMeta.domain} v{rsMeta.version})."
-    pure 1
+  IO.println s!"{if noContra then "PASS" else "FAIL"} no_contradictory_verdicts"
+  IO.println s!"{if noIncompat then "PASS" else "FAIL"} no_incompatible_obligations"
+  IO.println s!"{if oughtCan then "PASS" else "FAIL"} ought_implies_can"
+
+  let ok := noContra && noIncompat && oughtCan
+  IO.println s!"{if ok then "OK" else "FAIL"}: invariants checked for {factSets.length} fact-sets (ruleset {rsMeta.domain} v{rsMeta.version})."
+
+  pure (if ok then 0 else 1)
