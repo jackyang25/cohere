@@ -1,53 +1,48 @@
-## Cohere
+# Cohere
+
+`open-source` `lean-4` `formally-verified` `clinical-decision-support` `hypergraph-kernel`
 
 Verified clinical hypergraph decision support kernel (Lean 4).
 
-This repo contains:
-- **A reusable kernel** (pure, data-agnostic logic) for deriving verdicts from rules and checking safety invariants.
-- **Optional artifact + runtime layers** to load versioned JSON artifacts and run an executable verifier.
-- **Example data** under `data/` used as fixtures/demos (how you populate artifacts in production is up to you).
+---
 
-## What the kernel does (high level)
+## What it does
 
-Given:
-- a ruleset `R : List (Rule Fact Action)`
-- a fact set `F : FactSet Fact`
+Given a ruleset `R` and a patient fact set `F`, the kernel defines:
 
-the kernel defines:
-- **Derivation**: `Derive R F : Verdict Action → Prop` (which verdicts are derivable)
-- **Certificate decision**: `Accept R F a* : Prop` (whether a proposed action is accepted)
-- **Safety invariants** (Prop-level):
-  - no contradictory verdicts survive derivation
-  - no incompatible obligations
-  - ought implies can (obligations must be feasible)
+- **Derivation** -- `Derive R F` produces the set of verdicts (`Obligated`, `Allowed`, `Disallowed`, `Rejected`) that survive specificity-based shadowing.
+- **Certificate decision** -- `Accept R F a*` determines whether a proposed action is accepted.
+- **Safety invariants** (Prop-level, checked at verification time):
 
-The kernel is **parametric** in `Fact` and `Action`. There is no clinical ontology baked in.
+| # | Invariant | Statement |
+|---|-----------|-----------|
+| 1 | No contradiction | `Obligated(a)` and `Rejected(a)` never co-derive; nor do `Allowed(a)` and `Rejected(a)` |
+| 2 | No incompatible obligations | Two actions marked incompatible are never both `Obligated` |
+| 3 | Ought implies can | `Obligated(a)` never triggers an infeasibility entry |
+
+The kernel is **parametric** in `Fact` and `Action`. No clinical ontology is baked in.
+
+## Infeasibility table
+
+Every action is feasible by default. The infeasibility table encodes exceptions only.
+
+Each entry has a premise set, just like a rule. If those premises are a subset of the patient's fact set, the entry applies and the action is infeasible. Any single matching entry is sufficient. This uses the same subset matching as rule firing -- one matching model for the entire system.
 
 ## Repository layout
 
-- **Kernel (pure)**: `Cohere/*` imported by `Cohere.lean`
-  - `Cohere/Types/*`: `FactSet`, `Rule`, `Verdict`, `ActionAlgebra`
-  - `Cohere/Derivation/*`: firing, specificity/shadowing, `Derive`
-  - `Cohere/Invariants/*`: Prop-level invariant definitions (+ `AllInvariants`)
-  - `Cohere/Certificate/*`: trusted accept/reject predicate
-  - `Cohere/Authoring/*`: authoring-time conflict predicates and option generation
+```
+Cohere/
+├── Types/          FactSet, Rule, Verdict, ActionAlgebra
+├── Derivation/     Firing, Specificity/Shadowing, Derive
+├── Invariants/     NoContradiction, NoIncompatible, OughtImpliesCan
+├── Certificate/    Accept/Reject predicate
+├── Authoring/      Conflict detection, option generation
+├── Artifacts/      JSON schema types + loaders (optional IO layer)
+└── Runtime/        Bool-backed verifier, invariant checks, soundness proofs
+```
 
-- **Artifacts (optional IO layer)**: `Cohere/Artifacts.lean`
-  - `Cohere/Artifacts/Schema.lean`: JSON schema types
-  - `Cohere/Artifacts/RulesetLoader.lean`: parse ruleset JSON
-  - `Cohere/Artifacts/ActionAlgebraLoader.lean`: build Prop-level `ActionAlgebra` from JSON
-
-- **Runtime (optional executable layer)**: `Cohere/Runtime.lean`
-  - `Cohere/Runtime/Verifier.lean`: Bool-backed mirror of derivation + `acceptB`
-  - `Cohere/Runtime/InvariantChecks.lean`: Bool-backed invariant checks
-  - `Cohere/Runtime/Soundness.lean`: partial bridges (Bool `true` ⇒ Prop holds)
-  - `Cohere/Runtime/ActionAlgebraLoader.lean`: build/load Bool action algebra from JSON
-
-- **Executable verifier**:
-  - `VerifyMain.lean`: `lake exe cohere-verify ...`
-  - `VerifyScript.lean`: `#eval` runner (useful in environments where native executables are annoying)
-
-- **Example artifacts**: `data/`
+- `VerifyMain.lean` -- CLI entry point (`lake exe cohere-verify`)
+- `data/` -- Example JSON artifacts (rules, incompatibility, infeasibility)
 
 ## Build
 
@@ -55,59 +50,30 @@ The kernel is **parametric** in `Fact` and `Action`. There is no clinical ontolo
 lake build
 ```
 
-## Run the verifier on the bundled example data
+## Run the verifier
+
+Default artifacts:
 
 ```bash
 lake exe cohere-verify
 ```
 
-This uses the default files under `data/`.
-
-## Run the verifier on your own artifacts
-
-Provide three paths:
-1) ruleset JSON
-2) incompatibility JSON
-3) feasibility JSON
+Custom artifacts (three paths: ruleset, incompatibility, infeasibility):
 
 ```bash
-lake exe cohere-verify path/to/rules.json path/to/incompat.json path/to/feasible.json
+lake exe cohere-verify path/to/rules.json path/to/incompat.json path/to/infeasible.json
 ```
 
-If verification fails, the executable returns a nonzero exit code (suitable for CI gating).
+Nonzero exit code on failure (suitable for CI gating).
 
-## Using this as a library
-
-Lean imports are intentionally split so downstream users can choose what they need:
-
-- **Kernel only**:
+## Using as a library
 
 ```lean
-import Cohere
+import Cohere              -- kernel only (pure, no IO)
+import Cohere.Artifacts    -- + JSON schema types and loaders
+import Cohere.Runtime      -- + Bool-backed checker and soundness bridges
 ```
 
-- **JSON artifact schemas + loaders**:
+## Disclaimers
 
-```lean
-import Cohere.Artifacts
-```
-
-- **Executable checker/runtime bridges**:
-
-```lean
-import Cohere.Runtime
-```
-
-## Production usage (typical pattern)
-
-Non-exhaustive recommended workflow:
-- your authoring/ETL pipeline produces versioned JSON artifacts
-- CI runs `lake exe cohere-verify ...` on every artifact update
-- only verified artifacts are published/deployed (e.g., uploaded to a registry/bucket)
-
-Optionally, a service that loads artifacts can also run verification at startup/on refresh and refuse to serve invalid artifacts.
-
-## Notes / disclaimers
-
-- This repository is a **kernel + verification tooling**. Clinical content and ontology integration are intentionally out of scope here.
-- The `data/` folder is included as **example fixtures**; you can replace it entirely in your own deployment.
+This is a kernel and verification tooling. Clinical content and ontology integration are out of scope. The `data/` folder contains example fixtures only.
