@@ -1,8 +1,10 @@
 # Cohere
 
-`open-source` `lean-4` `formally-verified` `clinical-decision-support` `hypergraph-kernel`
+Verified clinical hypergraph decision support kernel, written in Lean 4.
 
-Verified clinical hypergraph decision support kernel (Lean 4).
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Lean 4](https://img.shields.io/badge/Lean-4_(v4.15.0)-blue.svg)](https://lean-lang.org/)
+[![Lake](https://img.shields.io/badge/build-Lake-lightgrey.svg)](https://github.com/leanprover/lake)
 
 ---
 
@@ -26,7 +28,7 @@ The kernel is **parametric** in `Fact` and `Action`. No clinical ontology is bak
 
 Every action is feasible by default. The infeasibility table encodes exceptions only.
 
-Each entry has a premise set, just like a rule. If those premises are a subset of the patient's fact set, the entry applies and the action is infeasible. Any single matching entry is sufficient. This uses the same subset matching as rule firing -- one matching model for the entire system.
+Each entry has a premise set, just like a rule. If those premises are a subset of the patient's fact set, the entry fires and the action becomes infeasible. Any single matching entry is sufficient. This uses the same subset matching as rule firing -- one matching model for the entire system.
 
 ## Repository layout
 
@@ -73,6 +75,10 @@ import Cohere              -- kernel only (pure, no IO)
 import Cohere.Artifacts    -- + JSON schema types and loaders
 import Cohere.Runtime      -- + Bool-backed checker and soundness bridges
 ```
+
+## Integration
+
+This kernel is used by [verified-protocol-hypergraph](https://github.com/jackyang25/verified-protocol-hypergraph), which provides a full-stack dashboard, ontology layer, and REST API on top of it. The two repos are fully decoupled -- Cohere is cloned and compiled inside the Docker build.
 
 ## Disclaimers
 
