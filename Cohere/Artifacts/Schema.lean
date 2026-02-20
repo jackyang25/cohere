@@ -61,4 +61,12 @@ structure InfeasibilityJson where
   notes : Option String := none
 deriving FromJson, Repr
 
+structure FactExclusionGroupJson where
+  facts : List String := []
+deriving FromJson, Repr
+
+structure FactExclusionsJson where
+  groups : List FactExclusionGroupJson := []
+deriving FromJson, Repr
+
 end Cohere.Artifacts

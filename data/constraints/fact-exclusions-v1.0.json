@@ -1,0 +1,5 @@
+{
+  "groups": [
+    { "facts": ["Ctx.GA_<34w", "Ctx.GA_>=34w"] }
+  ]
+}

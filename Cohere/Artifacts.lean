@@ -7,3 +7,4 @@
 import Cohere.Artifacts.Schema
 import Cohere.Artifacts.RulesetLoader
 import Cohere.Artifacts.ActionAlgebraLoader
+import Cohere.Artifacts.FactConstraintsLoader

@@ -6,6 +6,7 @@ import Cohere.Types.FactSet
 import Cohere.Types.Verdict
 import Cohere.Types.Rule
 import Cohere.Types.ActionAlgebra
+import Cohere.Types.FactConstraints
 
 -- Layer 2: Derivation
 import Cohere.Derivation.Firing
