@@ -80,6 +80,10 @@ import Cohere.Runtime      -- + Bool-backed checker and soundness bridges
 
 This kernel is used by [verified-protocol-hypergraph](https://github.com/jackyang25/verified-protocol-hypergraph), which provides a full-stack dashboard, ontology layer, and REST API on top of it. The two repos are fully decoupled -- Cohere is cloned and compiled inside the Docker build.
 
+## Documentation
+
+For a detailed overview of the kernel design and verification approach, see the [Overleaf document](https://www.overleaf.com/read/cpkdxmxtkpfs#ef562e).
+
 ## Disclaimers
 
 This is a kernel and verification tooling. Clinical content and ontology integration are out of scope. The `data/` folder contains example fixtures only.
