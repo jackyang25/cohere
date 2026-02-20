@@ -22,8 +22,4 @@ def respectsGroupB [DecidableEq Fact] (group : List Fact) (F : List Fact) : Bool
 def validFactSetB [DecidableEq Fact] (fc : FactConstraintsB Fact) (F : List Fact) : Bool :=
   fc.exclusionGroups.all (fun group => respectsGroupB group F)
 
-/-- Filter a list of fact sets to only those valid under the constraints. -/
-def filterValidFactSets [DecidableEq Fact] (fc : FactConstraintsB Fact) (factSets : List (List Fact)) : List (List Fact) :=
-  factSets.filter (fun F => validFactSetB fc F)
-
 end Cohere.Runtime

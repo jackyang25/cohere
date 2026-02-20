@@ -2,7 +2,7 @@
   Cohere.Artifacts.Schema
 
   Data format definitions for versioned clinical data artifacts
-  (rules, incompatibility tables, infeasibility tables).
+  (rules, incompatibility tables, infeasibility tables, fact exclusion groups).
 -/
 
 import Lean.Data.Json
